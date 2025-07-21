@@ -1,7 +1,9 @@
-
 import { useState } from 'react';
 import './App.css';
 import logoJpg from './assets/logo_santander2.jpg';
+import ConfluencePageEditor from './components/ConfluencePageEditor';
+import ConfluencePageList from './components/ConfluencePageList';
+import ConfluencePageView from './components/ConfluencePageView';
 
 const menuItems = [
   { name: 'Homepage', icon: '🏠' },
@@ -10,10 +12,23 @@ const menuItems = [
   { name: 'Documentación', icon: '📄' },
 ];
 
+const confluenceSections = ['Tribus', 'Herramientas', 'Documentación'];
+
+function getInitialPages() {
+  try {
+    return JSON.parse(localStorage.getItem('confluencePages')) || {};
+  } catch {
+    return {};
+  }
+}
 
 function App() {
   const [selected, setSelected] = useState('Homepage');
   const [sidebarVisible, setSidebarVisible] = useState(false);
+  const [pages, setPages] = useState(getInitialPages());
+  const [showEditor, setShowEditor] = useState(false);
+  const [currentSection, setCurrentSection] = useState(null);
+  const [viewPage, setViewPage] = useState(null);
 
   // Handler para mostrar el menú solo si el mouse está muy cerca del borde izquierdo
   const handleMouseMove = (e) => {
@@ -23,6 +38,29 @@ function App() {
       setSidebarVisible(false);
     }
   };
+
+  const handleCreatePage = (section) => {
+    setCurrentSection(section);
+    setShowEditor(true);
+  };
+
+  const handleSavePage = (page) => {
+    const updated = { ...pages };
+    if (!updated[currentSection]) updated[currentSection] = [];
+    updated[currentSection].push(page);
+    setPages(updated);
+    localStorage.setItem('confluencePages', JSON.stringify(updated));
+    setShowEditor(false);
+    setCurrentSection(null);
+  };
+
+  const handleCancelEditor = () => {
+    setShowEditor(false);
+    setCurrentSection(null);
+  };
+
+  const handleSelectPage = (page) => setViewPage(page);
+  const handleBackView = () => setViewPage(null);
 
   return (
     <div
@@ -55,23 +93,21 @@ function App() {
               <p>Esta web te ayudará a integrarte al equipo de aseguramiento de calidad de Santander.</p>
             </>
           )}
-          {selected === 'Tribus' && (
+          {confluenceSections.includes(selected) && (
             <>
-              <h1>Tribus</h1>
-              <p>Conoce las diferentes tribus y equipos dentro de QA.</p>
+              <h1>{selected}</h1>
+              <p>{selected === 'Tribus' ? 'Conoce las diferentes tribus y equipos dentro de QA.' : selected === 'Herramientas' ? 'Accede a las herramientas clave para tu trabajo diario.' : 'Encuentra guías, manuales y procesos de QA.'}</p>
+              <button className="confluence-btn create" onClick={() => handleCreatePage(selected)}>
+                + Crear página
+              </button>
+              <ConfluencePageList pages={pages[selected] || []} onSelect={handleSelectPage} />
             </>
           )}
-          {selected === 'Herramientas' && (
-            <>
-              <h1>Herramientas</h1>
-              <p>Accede a las herramientas clave para tu trabajo diario.</p>
-            </>
+          {viewPage && (
+            <ConfluencePageView page={viewPage} onBack={handleBackView} />
           )}
-          {selected === 'Documentación' && (
-            <>
-              <h1>Documentación</h1>
-              <p>Encuentra guías, manuales y procesos de QA.</p>
-            </>
+          {showEditor && (
+            <ConfluencePageEditor onSave={handleSavePage} onCancel={handleCancelEditor} />
           )}
         </section>
       </main>
