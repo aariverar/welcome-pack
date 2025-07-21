@@ -15,14 +15,22 @@ function App() {
   const [selected, setSelected] = useState('Homepage');
   const [sidebarVisible, setSidebarVisible] = useState(false);
 
+  // Handler para mostrar el menú solo si el mouse está muy cerca del borde izquierdo
+  const handleMouseMove = (e) => {
+    if (e.clientX <= 40) {
+      setSidebarVisible(true);
+    } else if (sidebarVisible && e.clientX > 260) {
+      setSidebarVisible(false);
+    }
+  };
+
   return (
     <div
       className="santander-app"
-      onMouseEnter={() => setSidebarVisible(true)}
-      onMouseLeave={() => setSidebarVisible(false)}
+      onMouseMove={handleMouseMove}
       style={{ position: 'relative' }}
     >
-      <aside className={`sidebar${sidebarVisible ? ' show' : ' hide'}`}>
+      <aside className={`sidebar${sidebarVisible ? ' show' : ' hide'}`}> 
         <div className="sidebar-header">
           <img src={logoJpg} alt="Santander" className="santander-logo" />
         </div>
