@@ -1,0 +1,217 @@
+/* Footer Santander */
+.footer {
+  width: 100%;
+  background: linear-gradient(90deg, #FE0000 0%, #FE0000 100%);
+  color: #fff;
+  padding: 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 99;
+}
+.footer-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1rem;
+}
+.footer-logo {
+  width: 70px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(213,0,28,0.10);
+  object-fit: contain;
+}
+.footer-text {
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+@media (max-width: 600px) {
+  .footer-content {
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+  .footer-logo {
+    width: 70px;
+  }
+}
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f6f6f6;
+}
+
+.santander-app {
+  display: flex;
+  min-height: 100vh;
+}
+
+
+.sidebar {
+  width: 260px;
+  background: linear-gradient(180deg, #FE0000 0%, #FE0000 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.07);
+  transition: transform 0.3s, opacity 0.3s;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 10;
+}
+.sidebar.hide {
+  transform: translateX(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+.sidebar.show {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sidebar-header {
+  padding: 2rem 1rem 1rem 1rem;
+  text-align: center;
+}
+
+.santander-logo {
+  width: 90px;
+  height: auto;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(213,0,28,0.10);
+  object-fit: contain;
+}
+
+nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  border-left: 4px solid transparent;
+  transition: background 0.2s, border-color 0.2s;
+  animation: fadeInLeft 0.5s;
+}
+.menu-item:hover, .menu-item.active {
+  background: rgba(255,255,255,0.08);
+  border-left: 4px solid #fff;
+}
+.menu-icon {
+  font-size: 1.3rem;
+}
+
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+
+.main-content {
+  flex: 1;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: #f6f6f6;
+  transition: margin-left 0.3s;
+  margin-left: 0;
+  padding: 3rem 2rem 2rem 2rem;
+}
+.main-content.shift {
+  margin-left: 260px;
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 200px;
+  }
+  .main-content.shift {
+    margin-left: 200px;
+  }
+  .content-card {
+    max-width: 95vw;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .sidebar {
+    position: fixed;
+    width: 100vw;
+    height: 60px;
+    left: 0;
+    top: 0;
+    bottom: unset;
+    flex-direction: row;
+    align-items: center;
+    z-index: 100;
+  }
+  .sidebar-header {
+    display: none;
+  }
+  nav {
+    flex-direction: row;
+    width: 100vw;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .menu-item {
+    padding: 0.5rem 0.7rem;
+    font-size: 1rem;
+    border-left: none;
+    border-bottom: 4px solid transparent;
+  }
+  .menu-item.active, .menu-item:hover {
+    background: rgba(255,255,255,0.08);
+    border-bottom: 4px solid #fff;
+  }
+  .main-content, .main-content.shift {
+    margin-left: 0;
+    margin-top: 70px;
+    padding: 2rem 1rem 1rem 1rem;
+    min-height: calc(100vh - 70px);
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .content-card {
+    max-width: 100vw;
+    padding: 1rem;
+  }
+}
+
+.content-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.08);
+  padding: 2.5rem 4rem;
+  min-width: 340px;
+  max-width: 900px;
+  width: 100%;
+  text-align: left;
+}
+
+.content-card h1 {
+  color: #FE0000;
+  margin-bottom: 1rem;
+  font-size: 2.2rem;
+}
+.content-card p {
+  color: #333;
+  font-size: 1.1rem;
+}
